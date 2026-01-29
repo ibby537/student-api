@@ -67,6 +67,23 @@ app.put('/api/students/:id', (req, res) => {
 
   res.json(student);
 });
+// DELETE student by id
+app.delete('/api/students/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+
+  const index = students.findIndex(s => s.id === id);
+
+  if (index === -1) {
+    return res.status(404).json({ message: 'Student not found' });
+  }
+
+  const deletedStudent = students.splice(index, 1);
+
+  res.json({
+    message: 'Student deleted',
+    student: deletedStudent[0]
+  });
+});
 
 
 // START SERVER (always last)
