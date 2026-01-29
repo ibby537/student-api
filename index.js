@@ -27,3 +27,27 @@ app.get('/api/students/:id', (req, res) => {
 
   res.json(student);
 });
+
+app.post('/api/students', (req, res) => {
+  const { name, course, year, status } = req.body;
+
+  // basic validation
+  if (!name || !course) {
+    return res.status(400).json({
+      message: 'Name and course are required'
+    });
+  }
+
+  const newStudent = {
+    id: students.length + 1,
+    name,
+    course,
+    year,
+    status
+  };
+
+  students.push(newStudent);
+
+  res.status(201).json(newStudent);
+});
+
