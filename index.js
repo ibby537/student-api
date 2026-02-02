@@ -7,10 +7,17 @@ const PORT = 3000;
 app.use(express.json());
 
 
-// GET all students
 app.get('/api/students', (req, res) => {
+  const year = parseInt(req.query.year);
+
+  if (year) {
+    const filtered = students.filter(s => s.year === year);
+    return res.json(filtered);
+  }
+
   res.json(students);
 });
+
 
 
 // GET student by id
