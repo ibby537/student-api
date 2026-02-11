@@ -21,17 +21,28 @@ app.get('/api/students', (req, res) => {
 
 
 // GET student by id
-app.get('/api/students/:id', (req, res) => {
-  const id = parseInt(req.params.id);
+app.get('/api/students', (req, res) => {
+  let result = students;
 
-  const student = students.find(s => s.id === id);
+  const { year, status, name } = req.query;
 
-  if (!student) {
-    return res.status(404).json({ message: 'Student not found' });
+  if (year) {
+    result = result.filter(s => s.year === parseInt(year));
   }
 
-  res.json(student);
+  if (status) {
+    result = result.filter(s => s.status === status);
+  }
+
+  if (name) {
+    result = result.filter(s =>
+      s.name.toLowerCase().includes(name.toLowerCase())
+    );
+  }
+
+  res.json(result);
 });
+
 
 
 // POST new student
